@@ -8,6 +8,7 @@
 import Foundation
 
 public struct FeatureVoterCountAPI: FeatureVoter {
+    public static var baseCountingUrl = "https://api.countapi.xyz/"
     let namespace: String
     
     /// See `https://countapi.xyz/` for more information.
@@ -25,7 +26,7 @@ public struct FeatureVoterCountAPI: FeatureVoter {
         }
         
         do {
-            let urlString = "https://api.countapi.xyz/get/\(namespace)/feature\(feature.id)"
+            let urlString = "\(FeatureVoterCountAPI.baseCountingUrl)get/\(namespace)/feature\(feature.id)"
             let count: RoadmapFeatureVotingCount = try await JSONDataFetcher.loadJSON(fromURLString: urlString)
             return count.value ?? 0
         } catch {
@@ -43,7 +44,7 @@ public struct FeatureVoterCountAPI: FeatureVoter {
         }
         
         do {
-            let urlString = "https://api.countapi.xyz/hit/\(namespace)/feature\(feature.id)"
+            let urlString = "\(FeatureVoterCountAPI.baseCountingUrl)hit/\(namespace)/feature\(feature.id)"
             let count: RoadmapFeatureVotingCount = try await JSONDataFetcher.loadJSON(fromURLString: urlString)
             feature.hasVoted = true
             print("Successfully voted, count is now: \(count)")
